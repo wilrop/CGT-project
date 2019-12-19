@@ -1,5 +1,6 @@
 import numpy as np
 
+
 class Player:
     """
     A class that represents a player in our collective-risk dilemma.
@@ -14,4 +15,8 @@ class Player:
         self.strategy_below = np.random.choice(legal_moves)
 
     def choose_action(self):
+        """
+        A method that will chose a function given a players strategy.
+        :return:
+        """
         return 0
