@@ -1,7 +1,7 @@
 from src.Generation import Generation
 
 
-def run_simultion(num_generations, num_games, num_rounds, num_players, population_size, initial_endowment, risk):
+def run_simulation(num_generations, num_games, num_rounds, num_players, population_size, initial_endowment, risk):
     """
     A helper function that will run the simulation.
     :param num_generations: The amount of generations we want to run.
@@ -31,4 +31,4 @@ if __name__ == "__main__":
     risk = 0.5  # Risk is represented as a probability.
 
     # Running the simulation.
-    run_simultion(num_generations, num_games, num_rounds, num_players, population_size, initial_endowment, risk)
+    run_simulation(num_generations, num_games, num_rounds, num_players, population_size, initial_endowment, risk)
