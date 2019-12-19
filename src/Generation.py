@@ -8,10 +8,10 @@ class Generation:
     """
     A class representing a generation for a certain population.
     """
-    def __init__(self, num_games, population_size, num_players, initial_endowment):
+    def __init__(self, num_games, population_size, num_players, initial_endowment, legal_moves):
         self.num_games = num_games
         self.num_players = num_players
-        self.population = [Player(initial_endowment) for x in range(population_size)]
+        self.population = [Player(initial_endowment, legal_moves) for x in range(population_size)]
 
     def play(self, num_rounds, risk):
         """
