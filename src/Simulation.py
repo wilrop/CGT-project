@@ -23,8 +23,8 @@ def run_simulation(num_generations, num_games, num_rounds, num_players, populati
 
 if __name__ == "__main__":
     # Declaring static variables.
-    num_generations = 10 ^ 4
-    num_games = 10 ^ 3
+    num_generations = 10 ** 4
+    num_games = 10 ** 3
     num_rounds = 10
     num_players = 6
     population_size = 100
