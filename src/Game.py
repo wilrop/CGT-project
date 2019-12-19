@@ -6,3 +6,5 @@ class Game:
         self.players = players
         self.risk = risk
         self.rounds = rounds
+
+        self.target_sum = len(players) * rounds
