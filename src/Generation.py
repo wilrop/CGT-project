@@ -30,7 +30,7 @@ class Generation:
 
     def calculate_fitness(self):
         """
-        A function that will calculate the fitness op all players in the generation.
+        A function that will calculate the fitness of all players in the generation.
         :return: An array containing the fitness per player.
         """
         avg_payoffs = [np.average(player.payoffs) for player in self.population]
