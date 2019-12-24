@@ -16,7 +16,7 @@ class BuildSimulation:
         self.legal_moves = [0, 1, 2]
 
         # The risk that a player loses their balance.
-        self.risk = 0.5  # Risk is represented as a probability.
+        self.risk = 0.9  # Risk is represented as a probability.
 
         # A measure for the intensity of selection
         self.beta = 1
