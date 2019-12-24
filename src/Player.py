@@ -14,9 +14,5 @@ class Player:
         self.strategy_above = np.random.choice(legal_moves)
         self.strategy_below = np.random.choice(legal_moves)
 
-    def choose_action(self):
-        """
-        A method that will chose a function given a players strategy.
-        :return:
-        """
-        return 0
+        # Initialize the player's payoff history
+        self.payoffs = []
