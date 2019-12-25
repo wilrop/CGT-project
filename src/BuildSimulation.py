@@ -22,5 +22,5 @@ class BuildSimulation:
         self.beta = 1
 
         # The variables used in the noise generation process when evolving a generation.
-        self.mu = 0.15
-        self.sigma = 0
+        self.mu = 0.03
+        self.sigma = 0.15
