@@ -20,19 +20,15 @@ class Game:
         contributions = 0
         for round in range(self.num_rounds):
             for player in self.players:
-                if contributions < player.threshold and player.balance >= player.strategy_below:
-                    contributions += player.strategy_below
-                    player.balance -= player.strategy_below
-                elif contributions >= player.threshold and player.balance >= player.strategy_above:
-                    contributions += player.strategy_above
-                    player.balance -= player.strategy_above
+                contribution = player.select_action(round, contributions, self.target_sum)
+                contributions += contribution
 
-        # Give The payoffs after playing the game.
+        # Give the payoffs after playing the game.
         if contributions >= self.target_sum or self.risk < np.random.uniform(0, 1):
             for player in self.players:
                 player.payoffs.append(player.balance)
+                player.balance = player.starting_balance
         else:
             for player in self.players:
                 player.payoffs.append(0)
-
-        return contributions
+                player.balance = player.starting_balance
