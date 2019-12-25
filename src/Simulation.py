@@ -8,12 +8,11 @@ def run_simulation(setup):
     :param setup: An object containing al variables that will be used in the simulation.
     :return: Nothing as of now. TODO make it return something useful.
     """
-
+    generation = Generation(setup)
     for i in range(setup.num_generations):
         print("Generation " + str(i))
-        generation = Generation(setup)
         generation.play()
-        generation.calculate_fitness()
+        generation.evolve()
 
     return 0
 
