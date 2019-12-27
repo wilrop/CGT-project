@@ -9,6 +9,7 @@ class Game:
         self.players = players
         self.num_rounds = setup.num_rounds
         self.risk = setup.risk
+        self.interest = setup.interest
 
         self.target_sum = len(players) * self.num_rounds  # The target sum that needs to be invested before succeeding.
 
@@ -25,6 +26,7 @@ class Game:
                 round_contributions += contribution
 
             contributions += round_contributions
+            contributions += contributions * self.interest
 
         # Give the payoffs after playing the game.
         target_reached = contributions >= self.target_sum

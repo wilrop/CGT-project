@@ -24,3 +24,6 @@ class BuildSimulation:
         # The variables used in the noise generation process when evolving a generation.
         self.mu = 0.03
         self.sigma = 0.15
+
+        # Interest on the common account
+        self.interest = 0
