@@ -11,15 +11,23 @@ class Player:
         self.legal_moves = legal_moves  # The contributions that are allowed in our game.
         self.rounds = rounds
 
-        # The player strategy.
-        self.thresholds = [np.random.uniform(0, 1) for i in range(rounds)]
-        self.strategies_above = [np.random.choice(legal_moves) for i in range(rounds)]
-        self.strategies_below = [np.random.choice(legal_moves) for i in range(rounds)]
+        # The player strategies.
+        self.thresholds = np.random.uniform(0, 1, size=rounds)
+        self.strategies_above = np.random.choice(legal_moves, size=rounds)
+        self.strategies_below = np.random.choice(legal_moves, size=rounds)
 
         # Initialize the player's payoff history
         self.payoffs = []
 
     def select_action(self, round, contributions, target):
+        """
+        A method that will select an action for this player.
+        :param round: The current round.
+        :param contributions: The current contributions in the common account.
+        :param target: The target that we aim to reach with this common account.
+        :return: A contribution to the common account.
+        """
+        # We first select the correct strategy for this round.
         threshold = self.thresholds[round] * target
         strategy_above = self.strategies_above[round]
         strategy_below = self.strategies_below[round]
@@ -30,6 +38,8 @@ class Player:
         elif contributions >= threshold and self.balance >= strategy_above:
             self.balance -= strategy_above
             return strategy_above
+        else:
+            return 0
 
     def create_offspring(self, mu, sigma):
         """
@@ -47,9 +57,9 @@ class Player:
 
         offspring = Player(self.starting_balance, self.legal_moves, self.rounds)
         offspring.thresholds = self.thresholds
-        offspring.strategy_above = self.strategies_above
-        offspring.strategy_below = self.strategies_below
-
+        offspring.strategies_above = self.strategies_above
+        offspring.strategies_below = self.strategies_below
+        
         # Check for random mutation in every round.
         for round in range(self.rounds):
             if np.random.uniform(0, 1) < mu:

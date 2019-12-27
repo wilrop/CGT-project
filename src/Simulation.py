@@ -1,3 +1,5 @@
+import numpy as np
+
 from src.BuildSimulation import BuildSimulation
 from src.Generation import Generation
 
@@ -11,7 +13,8 @@ def run_simulation(setup):
     generation = Generation(setup)
     for i in range(setup.num_generations):
         print("Generation " + str(i))
-        generation.play()
+        targets_reached = generation.play()
+        print(np.unique(targets_reached, return_counts=True))
         generation.evolve()
 
     return 0

@@ -15,13 +15,16 @@ class Game:
     def play(self):
         """
         A method that will play a single game.
-        :return:
+        :return: A boolean if the target was reached or not.
         """
         contributions = 0
         for round in range(self.num_rounds):
+            round_contributions = 0
             for player in self.players:
                 contribution = player.select_action(round, contributions, self.target_sum)
-                contributions += contribution
+                round_contributions += contribution
+
+            contributions += round_contributions
 
         # Give the payoffs after playing the game.
         if contributions >= self.target_sum or self.risk < np.random.uniform(0, 1):
@@ -32,3 +35,5 @@ class Game:
             for player in self.players:
                 player.payoffs.append(0)
                 player.balance = player.starting_balance
+
+        return contributions >= self.target_sum

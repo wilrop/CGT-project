@@ -22,13 +22,15 @@ class Generation:
     def play(self):
         """
         A function that will play all the games of the generation.
-        :return: Nothing as of now. TODO make it return something useful.
+        :return: An array that holds for every game if the target was reached.
         """
+        targets_reached = []
         for i in range(self.num_games):
-            players = np.random.choice(self.population, self.num_players, replace=False)
+            players = np.random.choice(self.population, self.num_players, replace=False)  # Pick players for the game.
             game = Game(self.setup, players)
-            game.play()
-        return 0
+            target_reached = game.play()
+            targets_reached.append(target_reached)
+        return targets_reached
 
     def calculate_fitness(self):
         """
@@ -36,8 +38,8 @@ class Generation:
         :return: An array containing the fitness per player.
         """
         avg_payoffs = [np.average(player.payoffs) for player in self.population]
-        fitness = np.exp(avg_payoffs * self.beta)
         print(np.average(avg_payoffs))
+        fitness = np.exp(avg_payoffs * self.beta)
         return fitness
 
     def evolve(self):
@@ -45,14 +47,14 @@ class Generation:
         A function that will execute a Wright-Fisher process to evolve a generation.
         :return: /
         """
-        fi_lst = self.calculate_fitness()
-        fitness_sum = np.sum(fi_lst)
-        probabilities = [fi / fitness_sum for fi in fi_lst]
+        fi = self.calculate_fitness()
+        fitness_sum = np.sum(fi)
+        probabilities = fi / fitness_sum  # Calculate the probabilities that a player will get chosen to be a parent.
 
         parents = np.random.choice(self.population, size=self.population_size, replace=True, p=probabilities)
         offspring = []
         for parent in parents:
-            child = parent.create_offspring(self.setup.mu, self.setup.sigma)
+            child = parent.create_offspring(self.setup.mu, self.setup.sigma)  # Create offspring.
             offspring.append(child)
 
-        self.population = offspring
+        self.population = offspring  # Set the population to the offspring, thereby "evolving" the population.
