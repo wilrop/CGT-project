@@ -27,7 +27,8 @@ class Game:
             contributions += round_contributions
 
         # Give the payoffs after playing the game.
-        if contributions >= self.target_sum or self.risk < np.random.uniform(0, 1):
+        target_reached = contributions >= self.target_sum
+        if target_reached or self.risk < np.random.uniform(0, 1):
             for player in self.players:
                 player.payoffs.append(player.balance)
                 player.balance = player.starting_balance
@@ -36,4 +37,4 @@ class Game:
                 player.payoffs.append(0)
                 player.balance = player.starting_balance
 
-        return contributions >= self.target_sum
+        return target_reached

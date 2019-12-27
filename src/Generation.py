@@ -30,7 +30,10 @@ class Generation:
             game = Game(self.setup, players)
             target_reached = game.play()
             targets_reached.append(target_reached)
-        return targets_reached
+
+        avg_payoff = np.average([np.average(player.payoffs) for player in self.population])
+
+        return targets_reached, avg_payoff
 
     def calculate_fitness(self):
         """
@@ -38,7 +41,6 @@ class Generation:
         :return: An array containing the fitness per player.
         """
         avg_payoffs = [np.average(player.payoffs) for player in self.population]
-        print(np.average(avg_payoffs))
         fitness = np.exp(avg_payoffs * self.beta)
         return fitness
 
