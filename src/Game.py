@@ -10,8 +10,7 @@ class Game:
         self.num_rounds = setup.num_rounds
         self.risk = setup.risk
         self.interest = setup.interest
-
-        self.target_sum = len(players) * self.num_rounds  # The target sum that needs to be invested before succeeding.
+        self.target_sum = setup.target_sum
 
     def play(self):
         """
@@ -22,7 +21,7 @@ class Game:
         for round in range(self.num_rounds):
             round_contributions = 0
             for player in self.players:
-                contribution = player.select_action(round, contributions, self.target_sum)
+                contribution = player.select_action(round, contributions)
                 round_contributions += contribution
 
             contributions += round_contributions

@@ -14,6 +14,7 @@ class BuildSimulation:
         self.population_size = 100
         self.initial_endowment = 2 * self.num_rounds
         self.legal_moves = [0, 1, 2]
+        self.target_sum = self.num_players * self.num_rounds
 
         # The risk that a player loses their balance.
         self.risk = 0.9  # Risk is represented as a probability.
