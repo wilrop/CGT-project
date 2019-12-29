@@ -44,7 +44,6 @@ def plot_risk_prob_proportions(setup, risks, results):
     plt.xlabel("Risk probability")
     plt.ylabel("Proportion")
     plt.legend()
-    plt.savefig("test2.png", dpi=300)
     plt.show()
 
 def plot_trajectories(setup, result):
@@ -64,7 +63,6 @@ def plot_trajectories(setup, result):
     plt.xlabel("Generations")
     plt.ylabel("Proportion")
     plt.legend()
-    plt.savefig("test.png", dpi=300)
     plt.show()
 
 
