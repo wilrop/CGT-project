@@ -44,7 +44,7 @@ class Generation:
         A function that will calculate the fitness of all players in the generation.
         :return: An array containing the fitness per player.
         """
-        avg_payoffs = [np.average(player.payoffs) for player in self.population]
+        avg_payoffs = [np.average(player.payoffs) for player in self.population if player.games_played > 0]
         fitness = np.exp(avg_payoffs * self.beta)
         return fitness
 
@@ -56,8 +56,8 @@ class Generation:
         fi = self.calculate_fitness()
         fitness_sum = np.sum(fi)
         probabilities = fi / fitness_sum  # Calculate the probabilities that a player will get chosen to be a parent.
-
-        parents = np.random.choice(self.population, size=self.population_size, replace=True, p=probabilities)
+        population = list(filter(lambda p: p.games_played > 0, self.population))
+        parents = np.random.choice(population, size=self.population_size, replace=True, p=probabilities)
         offspring = []
         for parent in parents:
             child = parent.create_offspring(self.setup.mu, self.setup.sigma)  # Create offspring.
