@@ -22,7 +22,8 @@ class Generation:
     def play(self):
         """
         A function that will play all the games of the generation.
-        :return: An array that holds for every game if the target was reached.
+        :return: An array that holds for every game if the target was reached, 
+            the average payoff and the average contributions per round.
         """
         targets_reached = []
         for i in range(self.num_games):
@@ -32,8 +33,11 @@ class Generation:
             targets_reached.append(target_reached)
 
         avg_payoff = np.average([np.average(player.payoffs) for player in self.population])
+        avg_rounds_contributions = np.average(
+            [player.rounds_contributions / player.games_played for player in self.population if player.games_played > 0], 
+            axis=0)
 
-        return targets_reached, avg_payoff
+        return targets_reached, avg_payoff, avg_rounds_contributions
 
     def calculate_fitness(self):
         """

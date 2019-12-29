@@ -3,7 +3,6 @@ import numpy as np
 from src.BuildSimulation import BuildSimulation
 from src.Generation import Generation
 
-
 def run_simulation(setup):
     """
     A helper function that will run the simulation.
@@ -15,11 +14,13 @@ def run_simulation(setup):
     generation = Generation(setup)
     for i in range(setup.num_generations):
         print("Generation " + str(i))
-        targets_reached, avg_payoff = generation.play()
+        targets_reached, avg_payoff, avg_rounds_contributions = generation.play()
         avg_payoffs.append(avg_payoff)
         print("Targets reached: ")
         print(np.unique(targets_reached, return_counts=True))
         print("With an average payoff of " + str(avg_payoff))
+        print("Averaged rounds contributions : ")
+        print(avg_rounds_contributions)
         generation.evolve()
 
     print("Average payoff over all generations: ")

@@ -20,6 +20,13 @@ class Player:
         # Initialize the player's payoff history
         self.payoffs = []
 
+        # Initialize the player's per-round contributions (summed for the played games)
+        self.rounds_contributions = np.zeros(rounds)
+
+    @property
+    def games_played(self):
+        return len(self.payoffs)
+
     def select_action(self, round, contributions):
         """
         A method that will select an action for this player.
@@ -34,13 +41,14 @@ class Player:
         strategy_below = self.strategies_below[round]
 
         if contributions < threshold and self.balance >= strategy_below:
-            self.balance -= strategy_below
-            return strategy_below
+            contribution = strategy_below
         elif contributions >= threshold and self.balance >= strategy_above:
-            self.balance -= strategy_above
-            return strategy_above
+            contribution = strategy_above
         else:
-            return 0
+            contribution = 0
+        self.balance -= contribution
+        self.rounds_contributions[round] += contribution
+        return contribution
 
     def create_offspring(self, mu, sigma):
         """
