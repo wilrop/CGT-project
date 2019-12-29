@@ -32,7 +32,7 @@ class Generation:
             target_reached = game.play()
             targets_reached.append(target_reached)
 
-        avg_payoff = np.average([np.average(player.payoffs) for player in self.population])
+        avg_payoff = np.average([np.average(player.payoffs) for player in self.population if player.games_played > 0])
         avg_rounds_contributions = np.average(
             [player.rounds_contributions / player.games_played for player in self.population if player.games_played > 0], 
             axis=0)
