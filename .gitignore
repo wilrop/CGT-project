@@ -12,3 +12,6 @@ venv/
 
 # DS_Store
 .DS_Store
+
+# Results are stored in CSV format and we don't want to include them
+*.csv
