@@ -1,5 +1,4 @@
 import numpy as np
-import math
 
 from src.Game import Game
 from src.Player import Player
