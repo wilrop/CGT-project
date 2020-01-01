@@ -21,7 +21,7 @@ class Player:
         # Initialize the player's payoff history
         self.payoffs = []
 
-        # Initialize the player's per-round contributions (summed for the played games)
+        # Initialize the player's per-round contributions counts (summed for the played games)
         self.rounds_contributions_counts = np.zeros((rounds, len(legal_moves)))
 
     @property

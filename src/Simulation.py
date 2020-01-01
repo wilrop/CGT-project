@@ -15,16 +15,20 @@ def run_simulation(setup, savefile):
     generations_avg_payoffs = []
     generations_targets_reached = []
     generations_rounds_contributions_counts = []
+    generations_behaviors_counts = []
 
     generation = Generation(setup)
     for i in range(setup.num_generations):
         print("Generation " + str(i))
-        targets_reached, avg_payoff, rounds_contributions_counts = generation.play()
+        targets_reached, avg_payoff, rounds_contributions_counts, behaviors_counts = generation.play()
         generations_avg_payoffs.append(avg_payoff)
         generations_targets_reached.append(np.sum(targets_reached))
         generations_rounds_contributions_counts.append(rounds_contributions_counts.tolist())
+        generations_behaviors_counts.append(behaviors_counts.tolist())
         print("Targets reached: ", np.sum(targets_reached))
         print("With an average payoff of " + str(avg_payoff))
+        print("Behavior counts: ")
+        print(behaviors_counts)
         print("Rounds contributions counts: ")
         print(rounds_contributions_counts)
         generation.evolve()

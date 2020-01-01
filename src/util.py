@@ -1,6 +1,5 @@
 import numpy as np
 
-
 def get_risk_prob_proportions(setup, risks, results):
     """
     Gets the values of the evolution of payoffs, probability of reaching the target, total contributions and
