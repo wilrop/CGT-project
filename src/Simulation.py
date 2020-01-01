@@ -38,7 +38,8 @@ def run_simulation(setup, savefile):
     # We place everything inside a dictionary and then in a data frame.
     results = {"avg_payoffs": generations_avg_payoffs,
                "targets_reached": generations_targets_reached,
-               "rounds_contributions_counts": generations_rounds_contributions_counts}
+               "rounds_contributions_counts": generations_rounds_contributions_counts,
+               "behaviors_counts": generations_behaviors_counts}
     results_df = pd.DataFrame(results)
     
     # We write the results to a file.
@@ -53,7 +54,7 @@ if __name__ == "__main__":
     setup = BuildSimulation()
 
     risks = np.linspace(0.0, 1.0, 21)  # 0.05 step size, open intervals
-    
+
     for risk in risks:
         print("Simulation for risk " + str(risk))
         setup.risk = risk
