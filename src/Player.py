@@ -5,10 +5,11 @@ class Player:
     """
     A class that represents a player in our collective-risk dilemma.
     """
-    def __init__(self, coins, legal_moves, rounds, target):
+    def __init__(self, coins, legal_moves, legal_move_idx, rounds, target):
         self.starting_balance = coins
         self.balance = coins
         self.legal_moves = legal_moves  # The contributions that are allowed in our game.
+        self.legal_move_idx = legal_move_idx
         self.rounds = rounds
         self.target = target
 
@@ -21,7 +22,7 @@ class Player:
         self.payoffs = []
 
         # Initialize the player's per-round contributions (summed for the played games)
-        self.rounds_contributions = np.zeros(rounds)
+        self.rounds_contributions_counts = np.zeros((rounds, len(legal_moves)))
 
     @property
     def games_played(self):
@@ -47,7 +48,7 @@ class Player:
         else:
             contribution = 0
         self.balance -= contribution
-        self.rounds_contributions[round] += contribution
+        self.rounds_contributions_counts[round, self.legal_move_idx[contribution]] += 1
         return contribution
 
     def create_offspring(self, mu, sigma):
@@ -64,7 +65,7 @@ class Player:
             """
             return np.random.normal(scale=sigma)
 
-        offspring = Player(self.starting_balance, self.legal_moves, self.rounds, self.target)
+        offspring = Player(self.starting_balance, self.legal_moves, self.legal_move_idx, self.rounds, self.target)
 
         # Force copy of numpy array to avoid multiple children cumulatively mutating the same strategy.
         offspring.thresholds = np.copy(self.thresholds)

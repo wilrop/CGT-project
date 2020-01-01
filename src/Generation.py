@@ -14,7 +14,7 @@ class Generation:
         self.num_players = setup.num_players
         self.num_rounds = setup.num_rounds
         self.population_size = setup.population_size
-        self.population = [Player(setup.initial_endowment, setup.legal_moves, self.num_rounds, setup.target_sum) for x in range(self.population_size)]
+        self.population = [Player(setup.initial_endowment, setup.legal_moves, setup.legal_move_idx, self.num_rounds, setup.target_sum) for x in range(self.population_size)]
         self.risk = setup.risk
         self.beta = setup.beta
 
@@ -32,11 +32,11 @@ class Generation:
             targets_reached.append(target_reached)
 
         avg_payoff = np.average([np.average(player.payoffs) for player in self.population if player.games_played > 0])
-        avg_rounds_contributions = np.average(
-            [player.rounds_contributions / player.games_played for player in self.population if player.games_played > 0], 
-            axis=0)
 
-        return targets_reached, avg_payoff, avg_rounds_contributions
+        # Sum the counts for all the players
+        rounds_contributions_counts = np.sum([player.rounds_contributions_counts for player in self.population], axis=0)
+
+        return targets_reached, avg_payoff, rounds_contributions_counts
 
     def calculate_fitness(self):
         """

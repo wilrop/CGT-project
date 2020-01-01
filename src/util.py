@@ -19,8 +19,13 @@ def get_risk_prob_proportions(setup, risks, results):
     for risk, result in zip(risks, results):
         payoffs = result["avg_payoffs"]
         targets = result["targets_reached"]
-        rounds_contributions = result["avg_rounds_contributions"]
+        rounds_contributions_counts = np.array(result["rounds_contributions_counts"].tolist())
 
+        # Sum the counts across generations
+        rounds_contributions_counts = np.sum(rounds_contributions_counts, axis=0)
+        # Compute the total contributions from the counts
+        rounds_contributions = np.sum(rounds_contributions_counts * setup.legal_moves, axis=1) / np.sum(rounds_contributions_counts, axis=1)
+        
         avg_payoff = np.average(payoffs) / setup.initial_endowment
         risks_payoffs.append(avg_payoff)
 

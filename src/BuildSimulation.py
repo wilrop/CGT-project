@@ -14,6 +14,9 @@ class BuildSimulation:
         self.population_size = 100
         self.initial_endowment = 2 * self.num_rounds
         self.legal_moves = [0, 1, 2]
+        # Map the legal moves to their position in the list
+        # Useful to keep track of the frequencies of each moves
+        self.legal_move_idx = {self.legal_moves[i]: i for i in range(len(self.legal_moves))}
         self.target_sum = self.num_players * self.num_rounds
 
         # The risk that a player loses their balance.

@@ -14,19 +14,19 @@ def run_simulation(setup, savefile):
     """
     generations_avg_payoffs = []
     generations_targets_reached = []
-    generations_avg_rounds_contributions = []
+    generations_rounds_contributions_counts = []
 
     generation = Generation(setup)
     for i in range(setup.num_generations):
         print("Generation " + str(i))
-        targets_reached, avg_payoff, avg_rounds_contributions = generation.play()
+        targets_reached, avg_payoff, rounds_contributions_counts = generation.play()
         generations_avg_payoffs.append(avg_payoff)
         generations_targets_reached.append(np.sum(targets_reached))
-        generations_avg_rounds_contributions.append(avg_rounds_contributions.tolist())
+        generations_rounds_contributions_counts.append(rounds_contributions_counts.tolist())
         print("Targets reached: ", np.sum(targets_reached))
         print("With an average payoff of " + str(avg_payoff))
-        print("Averaged rounds contributions : ")
-        print(avg_rounds_contributions)
+        print("Rounds contributions counts: ")
+        print(rounds_contributions_counts)
         generation.evolve()
 
     print(generations_targets_reached)
@@ -34,12 +34,11 @@ def run_simulation(setup, savefile):
     # We place everything inside a dictionary and then in a data frame.
     results = {"avg_payoffs": generations_avg_payoffs,
                "targets_reached": generations_targets_reached,
-               "avg_rounds_contributions": generations_avg_rounds_contributions}
+               "rounds_contributions_counts": generations_rounds_contributions_counts}
     results_df = pd.DataFrame(results)
-
+    
     # We write the results to a file.
-    with open(savefile, 'a') as f:
-        results_df.to_csv(f, sep=',', mode='a', header=True, index=False, encoding="ascii")
+    results_df.to_csv(savefile, sep=',', mode='w', header=True, index=False, encoding="ascii")
 
 
 if __name__ == "__main__":
@@ -50,6 +49,7 @@ if __name__ == "__main__":
     setup = BuildSimulation()
 
     risks = np.linspace(0.0, 1.0, 21)  # 0.05 step size, open intervals
+    
     for risk in risks:
         print("Simulation for risk " + str(risk))
         setup.risk = risk
