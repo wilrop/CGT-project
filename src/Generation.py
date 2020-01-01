@@ -27,14 +27,15 @@ class Generation:
         targets_reached = []
         # Keep track of the number of times each behavior is observed.
         # One behavior corresponds to one possible total contribution during a game
-        # Thus, with R rounds and max(legal_moves) = 2, we have 2*R total different behaviors
-        behaviors_counts = np.zeros(max(self.setup.legal_moves) * self.num_rounds)
+        # Thus, with R rounds and max(legal_moves) = 2, we have 2*R+1 total different behaviors
+        behaviors_counts = np.zeros(max(self.setup.legal_moves) * self.num_rounds + 1)
         for i in range(self.num_games):
             players = np.random.choice(self.population, self.num_players, replace=False)  # Pick players for the game.
             game = Game(self.setup, players)
             target_reached, contributions = game.play()
             targets_reached.append(target_reached)
-            behaviors_counts[contributions] += 1
+            for contribution in contributions:
+                behaviors_counts[contribution] += 1
 
         avg_payoff = np.average([np.average(player.payoffs) for player in self.population if player.games_played > 0])
 
