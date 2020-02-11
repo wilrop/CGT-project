@@ -1,8 +1,8 @@
 import numpy as np
 import pandas as pd
 
-from src.BuildSimulation import BuildSimulation
-from src.Generation import Generation
+from BuildSimulation import BuildSimulation
+from Generation import Generation
 
 
 def run_simulation(setup, savefile):

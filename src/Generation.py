@@ -1,7 +1,7 @@
 import numpy as np
 
-from src.Game import Game
-from src.Player import Player
+from Game import Game
+from Player import Player
 
 
 class Generation:
