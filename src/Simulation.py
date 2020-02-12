@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import argparse
 
 from BuildSimulation import BuildSimulation
 from Generation import Generation
@@ -47,18 +48,21 @@ def run_simulation(setup, savefile):
 
 
 if __name__ == "__main__":
-    # Declaring the file we want to save the results to.
-    filename = "results"
+    # Starting the parser for the command line arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--risk", type=float, help="the risk factor of the evolutionary game")
+    args = parser.parse_args()
 
     # Declaring variables that are used in the evolutionary game.
     setup = BuildSimulation()
 
-    risks = np.linspace(0.0, 1.0, 21)  # 0.05 step size, open intervals
+    # Set the risk to the user specified one.
+    risk = args.risk
+    setup.risk = risk
 
-    for risk in risks:
-        print("Simulation for risk " + str(risk))
-        setup.risk = risk
-        savefile = filename + "-" + str(risk) + ".csv"
+    # Defining the file where to save the results to.
+    file = "results-" + str(risk) + ".csv"
 
-        # Running the simulation.
-        run_simulation(setup, savefile)
+    # Running the simulation.
+    print("Simulation for risk " + str(risk))
+    run_simulation(setup, file)
