@@ -5,8 +5,8 @@ class BuildSimulation:
     """
     def __init__(self):
         # Variables that define an amount for something.
-        self.num_generations = 10 ** 1
-        self.num_games = 10 ** 1
+        self.num_generations = 10 ** 4
+        self.num_games = 10 ** 3
         self.num_rounds = 10
         self.num_players = 6
 
