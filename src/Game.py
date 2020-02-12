@@ -1,4 +1,5 @@
 import numpy as np
+from util import calc_noise
 
 
 class Game:
@@ -11,6 +12,7 @@ class Game:
         self.risk = setup.risk
         self.interest = setup.interest
         self.target_sum = setup.target_sum
+        self.target_dev = setup.target_dev
 
     def play(self):
         """
@@ -31,7 +33,8 @@ class Game:
             contributions += contributions * self.interest
 
         # Give the payoffs after playing the game.
-        target_reached = contributions >= self.target_sum
+        target = calc_noise(self.target_sum, self.target_dev)
+        target_reached = contributions >= target
         if target_reached or self.risk < np.random.uniform(0, 1):
             for player in self.players:
                 player.payoffs.append(player.balance)

@@ -51,18 +51,27 @@ if __name__ == "__main__":
     # Starting the parser for the command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--risk", type=float, help="the risk factor of the evolutionary game")
+    parser.add_argument("--interest", type=float, help="the interest for the evolutionary game")
+    parser.add_argument("--target-dev", type=float, help="the standard deviation of the contribution target")
     args = parser.parse_args()
 
     # Declaring variables that are used in the evolutionary game.
     setup = BuildSimulation()
 
-    # Set the risk to the user specified one.
-    risk = args.risk
-    setup.risk = risk
+    # Set the user specified variables if they chose to do so.
+    if args.risk:
+        setup.risk = args.risk
 
-    # Defining the file where to save the results to.
-    file = "results-" + str(risk) + ".csv"
+    if args.interest:
+        setup.interest = args.interest
+
+    if args.target_dev:
+        setup.target_dev = args.target_dev
+
+    # Filename where to save the results to.
+    file = "results-" + str(setup.risk) + "-" + str(setup.interest) + "-" + str(setup.target_dev) + ".csv"
 
     # Running the simulation.
-    print("Simulation for risk " + str(risk))
+    print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
+          + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
     run_simulation(setup, file)

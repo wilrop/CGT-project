@@ -1,5 +1,6 @@
 import numpy as np
 
+
 def get_risk_prob_behaviors(setup, risks, results):
 
     # C = 0
@@ -31,7 +32,6 @@ def get_risk_prob_behaviors(setup, risks, results):
             risks_freq.append(np.sum(behaviors_counts[lower_contrib:upper_contrib]) / num_observations)
 
     return risks_c_0_freq, risks_c_lt_r_freq, risks_c_r_freq, risks_c_gt_r_freq
-
 
 
 def get_risk_prob_proportions(setup, risks, results):
@@ -77,3 +77,13 @@ def get_risk_prob_proportions(setup, risks, results):
         risks_contribs.append(avg_contribution)
 
     return risks_payoffs, risks_targets, risks_contribs, risks_fh_contribs, risks_sh_contribs
+
+
+def calc_noise(mu, sigma):
+    """
+    Calculate noise from a normal distribution with a given standard deviation.
+    :param mu: The mean of the normal distribution.
+    :param sigma: The standard deviation of the normal distribution.
+    :return: The random sample from the distribution.
+    """
+    return np.random.normal(loc=mu, scale=sigma)

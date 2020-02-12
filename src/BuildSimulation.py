@@ -5,8 +5,8 @@ class BuildSimulation:
     """
     def __init__(self):
         # Variables that define an amount for something.
-        self.num_generations = 10 ** 4
-        self.num_games = 10 ** 3
+        self.num_generations = 10 ** 1
+        self.num_games = 10 ** 1
         self.num_rounds = 10
         self.num_players = 6
 
@@ -14,6 +14,7 @@ class BuildSimulation:
         self.population_size = 100
         self.initial_endowment = 2 * self.num_rounds
         self.legal_moves = [0, 1, 2]
+        self.target_dev = 0
         # Map the legal moves to their position in the list
         # Useful to keep track of the frequencies of each moves
         self.legal_move_idx = {self.legal_moves[i]: i for i in range(len(self.legal_moves))}

@@ -1,5 +1,5 @@
 import numpy as np
-
+from util import calc_noise
 
 class Player:
     """
@@ -33,7 +33,6 @@ class Player:
         A method that will select an action for this player.
         :param round: The current round.
         :param contributions: The current contributions in the common account.
-        :param target: The target that we aim to reach with this common account.
         :return: A contribution to the common account.
         """
         # We first select the correct strategy for this round.
@@ -58,13 +57,6 @@ class Player:
         :param sigma: The standard deviation in the normal distribution used for the noise generation.
         :return: A newly created player that represents the child of this player.
         """
-        def calc_noise():
-            """
-            Calculate noise from a normal distribution with a given standard deviation.
-            :return: The random sample from the distribution.
-            """
-            return np.random.normal(scale=sigma)
-
         offspring = Player(self.starting_balance, self.legal_moves, self.legal_move_idx, self.rounds, self.target)
 
         # Force copy of numpy array to avoid multiple children cumulatively mutating the same strategy.
@@ -75,7 +67,7 @@ class Player:
         # Check for random mutation in every round.
         for round in range(self.rounds):
             if np.random.uniform(0, 1) < mu:
-                offspring.thresholds[round] += calc_noise()
+                offspring.thresholds[round] += calc_noise(0, sigma)
                 offspring.strategies_above[round] = np.random.choice(self.legal_moves)
                 offspring.strategies_below[round] = np.random.choice(self.legal_moves)
 
