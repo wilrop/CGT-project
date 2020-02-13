@@ -59,13 +59,13 @@ if __name__ == "__main__":
     setup = BuildSimulation()
 
     # Set the user specified variables if they chose to do so.
-    if args.risk:
+    if args.risk is not None:
         setup.risk = args.risk
 
-    if args.interest:
+    if args.interest is not None:
         setup.interest = args.interest
 
-    if args.target_dev:
+    if args.target_dev is not None:
         setup.target_dev = args.target_dev
 
     # Filename where to save the results to.
