@@ -16,7 +16,7 @@ class Player:
         self.target = setup.target_sum
 
         # The player strategies.
-        self.thresholds = np.random.uniform(0, 1, size=self.rounds)
+        self.thresholds = np.random.uniform(0, 1, size=self.rounds) if setup.strategy is None else np.full(self.rounds, 0.5)
         self.strategies_above = np.random.choice(self.legal_moves, size=self.rounds) if setup.strategy is None else setup.strategy
         self.strategies_below = np.random.choice(self.legal_moves, size=self.rounds) if setup.strategy is None else setup.strategy
         print(self.strategies_above)
