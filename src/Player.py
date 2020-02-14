@@ -1,28 +1,31 @@
 import numpy as np
 from util import calc_noise
 
+
 class Player:
     """
     A class that represents a player in our collective-risk dilemma.
     """
-    def __init__(self, coins, legal_moves, legal_move_idx, rounds, target):
-        self.starting_balance = coins
-        self.balance = coins
-        self.legal_moves = legal_moves  # The contributions that are allowed in our game.
-        self.legal_move_idx = legal_move_idx
-        self.rounds = rounds
-        self.target = target
+    def __init__(self, setup):
+        self.setup = setup
+        self.starting_balance = setup.initial_endowment
+        self.balance = setup.initial_endowment
+        self.legal_moves = setup.legal_moves  # The contributions that are allowed in our game.
+        self.legal_move_idx = setup.legal_move_idx
+        self.rounds = setup.num_rounds
+        self.target = setup.target_sum
 
         # The player strategies.
-        self.thresholds = np.random.uniform(0, 1, size=rounds)
-        self.strategies_above = np.random.choice(legal_moves, size=rounds)
-        self.strategies_below = np.random.choice(legal_moves, size=rounds)
+        self.thresholds = np.random.uniform(0, 1, size=self.rounds)
+        self.strategies_above = np.random.choice(self.legal_moves, size=self.rounds) if setup.strategy is None else setup.strategy
+        self.strategies_below = np.random.choice(self.legal_moves, size=self.rounds) if setup.strategy is None else setup.strategy
+        print(self.strategies_above)
 
         # Initialize the player's payoff history
         self.payoffs = []
 
         # Initialize the player's per-round contributions counts (summed for the played games)
-        self.rounds_contributions_counts = np.zeros((rounds, len(legal_moves)))
+        self.rounds_contributions_counts = np.zeros((self.rounds, len(self.legal_moves)))
 
     @property
     def games_played(self):
@@ -57,7 +60,7 @@ class Player:
         :param sigma: The standard deviation in the normal distribution used for the noise generation.
         :return: A newly created player that represents the child of this player.
         """
-        offspring = Player(self.starting_balance, self.legal_moves, self.legal_move_idx, self.rounds, self.target)
+        offspring = Player(self.setup)
 
         # Force copy of numpy array to avoid multiple children cumulatively mutating the same strategy.
         offspring.thresholds = np.copy(self.thresholds)

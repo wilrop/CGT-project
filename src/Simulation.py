@@ -10,6 +10,7 @@ def run_simulation(setup, savefile):
     """
     A helper function that will run the simulation.
     :param setup: An object containing all variables that will be used in the simulation.
+    :param savefile: The file where we want to save the results to.
     :return: averaged payoffs per generation, number of times the target was reached per generation 
         and the averaged contributions per round per generation (GxR matrix)
     """
@@ -53,6 +54,7 @@ if __name__ == "__main__":
     parser.add_argument("--risk", type=float, help="the risk factor of the evolutionary game")
     parser.add_argument("--interest", type=float, help="the interest for the evolutionary game")
     parser.add_argument("--target-dev", type=float, help="the standard deviation of the contribution target")
+    parser.add_argument("--strategy", type=str, help="the strategy for the population")
     args = parser.parse_args()
 
     # Declaring variables that are used in the evolutionary game.
@@ -67,6 +69,18 @@ if __name__ == "__main__":
 
     if args.target_dev is not None:
         setup.target_dev = args.target_dev
+
+    if args.strategy is not None:
+        if args.strategy == "Non-contributors":
+            setup.strategy = [0] * setup.num_rounds
+        elif args.strategy == "Altruists":
+            setup.strategy = [2] * setup.num_rounds
+        elif args.strategy == "Fair-rational":
+            setup.strategy = [0] * int((setup.num_rounds / 2)) + [2] * int((setup.num_rounds / 2))
+        elif args.strategy == "Fair-naive":
+            setup.strategy = [1] * setup.num_rounds
+        elif args.strategy == "Fair-rational-reverse":
+            setup.strategy = [2] * int((setup.num_rounds / 2)) + [0] * int((setup.num_rounds / 2))
 
     # Filename where to save the results to.
     file = "results-" + str(setup.risk) + "-" + str(setup.interest) + "-" + str(setup.target_dev) + ".csv"
