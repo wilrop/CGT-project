@@ -34,6 +34,13 @@ def run_simulation(setup, savefile):
         print("Rounds contributions counts: ")
         print(rounds_contributions_counts)
         generation.evolve()
+        if setup.strategy is not None:
+            if generation.frequency < setup.population_size / 2:
+                result = {"risk": [setup.risk],
+                          "duration": [i]}
+                result = pd.DataFrame(result)
+                result.to_csv(savefile, sep=',', mode='a', header=True, index=False, encoding="ascii")
+                return None
 
     print(generations_targets_reached)
 
@@ -82,10 +89,22 @@ if __name__ == "__main__":
         elif args.strategy == "Fair-rational-reverse":
             setup.strategy = [2] * int((setup.num_rounds / 2)) + [0] * int((setup.num_rounds / 2))
 
-    # Filename where to save the results to.
-    file = "results-" + str(setup.risk) + "-" + str(setup.interest) + "-" + str(setup.target_dev) + ".csv"
+        # Filename where to save the results to.
+        file = "results-" + args.strategy + ".csv"
 
-    # Running the simulation.
-    print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
-          + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
-    run_simulation(setup, file)
+        risks = np.linspace(0.0, 1.0, 21)  # 0.05 step size, open intervals
+
+        for risk in risks:
+            setup.risk = risk
+            # Running the simulation.
+            print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
+                  + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
+            run_simulation(setup, file)
+    else:
+        # Filename where to save the results to.
+        file = "results-" + str(setup.risk) + "-" + str(setup.interest) + "-" + str(setup.target_dev) + ".csv"
+
+        # Running the simulation.
+        print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
+            + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
+        run_simulation(setup, file)

@@ -17,6 +17,8 @@ class Generation:
         self.population = [Player(setup) for x in range(self.population_size)]
         self.risk = setup.risk
         self.beta = setup.beta
+        self.strategy = setup.strategy
+        self.frequency = setup.population_size
 
     def play(self):
         """
@@ -64,8 +66,16 @@ class Generation:
         population = list(filter(lambda p: p.games_played > 0, self.population))
         parents = np.random.choice(population, size=self.population_size, replace=True, p=probabilities)
         offspring = []
+        self.frequency = 0
         for parent in parents:
             child = parent.create_offspring(self.setup.mu, self.setup.sigma)  # Create offspring.
-            offspring.append(child)
 
+            # Check the frequency of the strategy if we are looking for it.
+            if self.strategy is not None:
+                print(child.strategy)
+                if self.strategy == child.strategy.tolist():
+                    self.frequency += 1
+
+            offspring.append(child)
+        print(self.frequency)
         self.population = offspring  # Set the population to the offspring, thereby "evolving" the population.

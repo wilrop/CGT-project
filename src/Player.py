@@ -16,10 +16,10 @@ class Player:
         self.target = setup.target_sum
 
         # The player strategies.
-        self.thresholds = np.random.uniform(0, 1, size=self.rounds) if setup.strategy is None else np.full(self.rounds, 0.5)
-        self.strategies_above = np.random.choice(self.legal_moves, size=self.rounds) if setup.strategy is None else setup.strategy
-        self.strategies_below = np.random.choice(self.legal_moves, size=self.rounds) if setup.strategy is None else setup.strategy
-        print(self.strategies_above)
+        self.thresholds = np.random.uniform(0, 1, size=self.rounds)
+        self.strategies_above = np.random.choice(self.legal_moves, size=self.rounds)
+        self.strategies_below = np.random.choice(self.legal_moves, size=self.rounds)
+        self.strategy = setup.strategy  # This is either a user provided strategy for the entire population or None
 
         # Initialize the player's payoff history
         self.payoffs = []
@@ -38,17 +38,21 @@ class Player:
         :param contributions: The current contributions in the common account.
         :return: A contribution to the common account.
         """
-        # We first select the correct strategy for this round.
-        threshold = self.thresholds[round] * self.target
-        strategy_above = self.strategies_above[round]
-        strategy_below = self.strategies_below[round]
-
-        if contributions < threshold and self.balance >= strategy_below:
-            contribution = strategy_below
-        elif contributions >= threshold and self.balance >= strategy_above:
-            contribution = strategy_above
+        if self.strategy is not None:
+            contribution = self.strategy[round]
         else:
-            contribution = 0
+            # We first select the correct strategy for this round.
+            threshold = self.thresholds[round] * self.target
+            strategy_above = self.strategies_above[round]
+            strategy_below = self.strategies_below[round]
+
+            if contributions < threshold and self.balance >= strategy_below:
+                contribution = strategy_below
+            elif contributions >= threshold and self.balance >= strategy_above:
+                contribution = strategy_above
+            else:
+                contribution = 0
+
         self.balance -= contribution
         self.rounds_contributions_counts[round, self.legal_move_idx[contribution]] += 1
         return contribution
@@ -66,12 +70,16 @@ class Player:
         offspring.thresholds = np.copy(self.thresholds)
         offspring.strategies_above = np.copy(self.strategies_above)
         offspring.strategies_below = np.copy(self.strategies_below)
+        offspring.strategy = np.copy(self.strategy)
 
         # Check for random mutation in every round.
         for round in range(self.rounds):
             if np.random.uniform(0, 1) < mu:
-                offspring.thresholds[round] += calc_noise(0, sigma)
-                offspring.strategies_above[round] = np.random.choice(self.legal_moves)
-                offspring.strategies_below[round] = np.random.choice(self.legal_moves)
+                if self.strategy is not None:
+                    offspring.strategy[round] = np.random.choice(self.legal_moves)
+                else:
+                    offspring.thresholds[round] += calc_noise(0, sigma)
+                    offspring.strategies_above[round] = np.random.choice(self.legal_moves)
+                    offspring.strategies_below[round] = np.random.choice(self.legal_moves)
 
         return offspring
