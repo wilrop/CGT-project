@@ -34,9 +34,14 @@ def run_simulation(setup, savefile):
         print("Rounds contributions counts: ")
         print(rounds_contributions_counts)
         generation.evolve()
+        # If we are investigating the robustness of strategies we return the number of generations it has survived.
         if setup.strategy is not None:
             if generation.frequency < setup.population_size / 2:
                 return i
+
+    # If we are investigating the robustness of strategies we return the number of generations it has survived.
+    if setup.strategy is not None:
+        return setup.num_generations
 
     print(generations_targets_reached)
 
