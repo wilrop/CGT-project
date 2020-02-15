@@ -104,6 +104,7 @@ if __name__ == "__main__":
                 total += time
                 # This is to save time
                 if time == setup.num_generations:
+                    runs = i + 1
                     break
 
             # Calculate the average amount of time it took.
