@@ -60,6 +60,7 @@ if __name__ == "__main__":
     # Starting the parser for the command line arguments
     parser = argparse.ArgumentParser()
     parser.add_argument("--risk", type=float, help="the risk factor of the evolutionary game")
+    parser.add_argument("--risk-dev", type=float, help="the standard deviation of the risk factor")
     parser.add_argument("--interest", type=float, help="the interest for the evolutionary game")
     parser.add_argument("--target-dev", type=float, help="the standard deviation of the contribution target")
     parser.add_argument("--strategy", type=str, help="the strategy for the population")
@@ -71,6 +72,9 @@ if __name__ == "__main__":
     # Set the user specified variables if they chose to do so.
     if args.risk is not None:
         setup.risk = args.risk
+
+    if args.risk_dev is not None:
+        setup.risk_dev = args.risk_dev
 
     if args.interest is not None:
         setup.interest = args.interest

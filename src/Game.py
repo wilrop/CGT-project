@@ -10,6 +10,7 @@ class Game:
         self.players = players
         self.num_rounds = setup.num_rounds
         self.risk = setup.risk
+        self.risk_dev = setup.risk_dev
         self.interest = setup.interest
         self.target_sum = setup.target_sum
         self.target_dev = setup.target_dev
@@ -35,7 +36,8 @@ class Game:
         # Give the payoffs after playing the game.
         target = calc_noise(self.target_sum, self.target_dev)
         target_reached = contributions >= target
-        if target_reached or self.risk < np.random.uniform(0, 1):
+        risk = calc_noise(self.risk, self.risk_dev)
+        if target_reached or risk < np.random.uniform(0, 1):
             for player in self.players:
                 player.payoffs.append(player.balance)
                 player.balance = player.starting_balance
