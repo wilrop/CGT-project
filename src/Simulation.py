@@ -102,6 +102,9 @@ if __name__ == "__main__":
                       + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
                 time = run_simulation(setup, file)
                 total += time
+                # This is to save time
+                if time == setup.num_generations:
+                    break
 
             # Calculate the average amount of time it took.
             avg = total / runs
