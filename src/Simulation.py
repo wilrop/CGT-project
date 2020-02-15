@@ -36,11 +36,7 @@ def run_simulation(setup, savefile):
         generation.evolve()
         if setup.strategy is not None:
             if generation.frequency < setup.population_size / 2:
-                result = {"risk": [setup.risk],
-                          "duration": [i]}
-                result = pd.DataFrame(result)
-                result.to_csv(savefile, sep=',', mode='a', header=True, index=False, encoding="ascii")
-                return None
+                return i
 
     print(generations_targets_reached)
 
@@ -96,15 +92,28 @@ if __name__ == "__main__":
 
         for risk in risks:
             setup.risk = risk
-            # Running the simulation.
-            print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
-                  + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
-            run_simulation(setup, file)
+            runs = 100
+            total = 0
+
+            # Execute the experiment for multiple runs.
+            for i in range(runs):
+                # Running the simulation.
+                print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
+                      + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
+                time = run_simulation(setup, file)
+                total += time
+
+            # Calculate the average amount of time it took.
+            avg = total / runs
+            result = {"risk": [risk],
+                      "duration": [avg]}
+            result = pd.DataFrame(result)
+            result.to_csv(file, sep=',', mode='a', header=True, index=False, encoding="ascii")
     else:
         # Filename where to save the results to.
         file = "results-" + str(setup.risk) + "-" + str(setup.interest) + "-" + str(setup.target_dev) + ".csv"
 
         # Running the simulation.
         print("Starting simulation for risk = " + str(setup.risk) + ", interest = "
-            + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
+              + str(setup.interest) + ", target deviation = " + str(setup.target_dev))
         run_simulation(setup, file)

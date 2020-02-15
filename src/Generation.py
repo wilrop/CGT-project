@@ -72,10 +72,8 @@ class Generation:
 
             # Check the frequency of the strategy if we are looking for it.
             if self.strategy is not None:
-                print(child.strategy)
                 if self.strategy == child.strategy.tolist():
                     self.frequency += 1
 
             offspring.append(child)
-        print(self.frequency)
         self.population = offspring  # Set the population to the offspring, thereby "evolving" the population.
