@@ -72,7 +72,7 @@ class Generation:
 
             # Check the frequency of the strategy if we are looking for it.
             if self.strategy is not None:
-                if self.strategy == child.strategy.tolist():
+                if self.strategy == child.strategy:
                     self.frequency += 1
 
             offspring.append(child)
