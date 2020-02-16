@@ -70,7 +70,8 @@ class Player:
         offspring.thresholds = np.copy(self.thresholds)
         offspring.strategies_above = np.copy(self.strategies_above)
         offspring.strategies_below = np.copy(self.strategies_below)
-        offspring.strategy = self.strategy
+        if self.strategy is not None:
+            offspring.strategy = np.copy(self.strategy)
 
         # Check for random mutation in every round.
         for round in range(self.rounds):
