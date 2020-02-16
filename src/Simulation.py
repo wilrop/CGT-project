@@ -21,6 +21,7 @@ def run_simulation(setup, savefile):
 
     generation = Generation(setup)
     for i in range(setup.num_generations):
+        setup.risk += setup.risk_cont
         print("Generation " + str(i))
         targets_reached, avg_payoff, rounds_contributions_counts, behaviors_counts = generation.play()
         generations_avg_payoffs.append(avg_payoff)
@@ -64,6 +65,7 @@ if __name__ == "__main__":
     parser.add_argument("--interest", type=float, help="the interest for the evolutionary game")
     parser.add_argument("--target-dev", type=float, help="the standard deviation of the contribution target")
     parser.add_argument("--strategy", type=str, help="the strategy for the population")
+    parser.add_argument("--continuous", type=float, help="Make the risk factor continuous")
     args = parser.parse_args()
 
     # Declaring variables that are used in the evolutionary game.
@@ -75,6 +77,9 @@ if __name__ == "__main__":
 
     if args.risk_dev is not None:
         setup.risk_dev = args.risk_dev
+
+    if args.continuous is not None:
+        setup.risk_cont = args.continuous
 
     if args.interest is not None:
         setup.interest = args.interest

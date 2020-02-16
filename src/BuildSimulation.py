@@ -24,6 +24,7 @@ class BuildSimulation:
         # The risk that a player loses their balance.
         self.risk = 0.9  # Risk is represented as a probability.
         self.risk_dev = 0  # The standard deviation of the noise added to the risk.
+        self.risk_cont = 0  # The extra risk that gets added after each generation.
 
         # A measure for the intensity of selection
         self.beta = 1
